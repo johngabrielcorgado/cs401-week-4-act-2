@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Role;
+use App\Models\User;
 
 class RoleSeeder extends Seeder
 {
@@ -12,21 +14,14 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
-        Role::factory()->create([
-            'role_name' => 'Admin',
-        ]);
-        Role::factory()->create([
-            'role_name' => 'Contributor',
-        ]);
-        Role::factory()->create([
-            'role_name' => 'Subscriber',
-        ]);
+        Role::create(['role_name' => 'A', 'description' => 'Admin']);
+        Role::create(['role_name' => 'C', 'description' => 'Contributor']);
+        Role::create(['role_name' => 'S', 'description' => 'Subscriber']);
 
-        $adminRole = Role::where('role_name', 'Admin')->first();
+        $adminRole = Role::where('role_name', 'A')->first();
         $user = User::first();
 
-        if ($adminRole && $user)
-        {
+        if ($adminRole && $user) {
             $user->roles()->attach($adminRole->id);
         }
     }
