@@ -14,16 +14,17 @@ class PostSeeder extends Seeder
      */
     public function run(): void
     {
+    $users = User::all();
+
+    if ($users->count() === 0) {
+        $this->command->warn('No users found. Seeding 5 users...');
+        \App\Models\User::factory(5)->create();
         $users = User::all();
+    }
 
-        if ($users->count() == 0) {
-            echo 'No users found, please run UserSeeder.';
-            return;
-        }
-
-        Post::factory(20)->create()->each(function ($post) use ($users) {
-            $post->user_id = $users->random()->id;
-            $post->save();
-        });
+    Post::factory(20)->make()->each(function ($post) use ($users) {
+        $post->user_id = $users->random()->id;
+        $post->save();
+    });
     }
 }

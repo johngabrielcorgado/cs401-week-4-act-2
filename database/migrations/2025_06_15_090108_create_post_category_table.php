@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('post_category', function (Blueprint $table) {
-            $table->unsignedBigInteger('post_id');
-            $table->unsignedBigInteger('category_id');
-            $table->foreign('post_id')->references('id')->on('posts');
-            $table->foreign('category_id')->references('id')->on('categories');
-        });
+    Schema::create('post_category', function (Blueprint $table) {
+        $table->id();
+        $table->foreignId('post_id')->constrained()->onDelete('cascade');
+        $table->foreignId('category_id')->constrained()->onDelete('cascade');
+    });
     }
 
     /**
